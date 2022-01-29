@@ -1,0 +1,49 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+
+<#@ include file="$(ProjectDir)\DBHelper.ttinclude" #>
+
+<#
+    var dbClient = GetDbInstance();
+    var tableName= "t_attachment_REVISE";
+    var columns = dbClient.DbSchema.GetColumnInfosByTableName(tableName);
+ #>
+
+using System; 
+using System.Text;
+using System.Collections.Generic; 
+using System.Data;
+
+using FD.BAS.Repository;
+using FD.BAS.Repository.Models;
+
+namespace FD.BAS.Domain 
+{
+    
+    [Table("<#= tableName #>")]
+	public partial class <#= TransTableToClass(tableName) #>PO :IEntity
+	{		      
+        <#        foreach (var column in columns) { #> 	        						  
+         /// <summary>
+		/// <#=                column.comment == null?"":column.comment #>
+        /// </summary>    
+        <#            if(column.is_primary) { #>    
+		[Key("seq_<#=                    tableName #>")]
+		<#            }else if(column.name == "CREATE_TIME" || column.name=="IS_DELETED"){ #>		
+        [Computed]
+        <#            } #>
+        public <#=                column.data_type #> <#            if(column.is_nullable && column.data_type !="String"){ #>?<#            } #>
+ <#=                column.name #>
+        {
+            get;set;
+        }	
+
+    <#        }  #>		
+    }
+}
+
+
+
+ 
