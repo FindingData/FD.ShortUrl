@@ -1,13 +1,18 @@
 ﻿<#@ template debug="true" hostspecific="true" language="C#" #>
 <#@ output extension=".cs" #>
 <#@ import namespace="System.Collections.Generic" #>
-
-
+<#@ import namespace="System" #>
 <#@ include file="$(ProjectDir)\DBHelper.ttinclude" #>
+
+<#@ assembly name="$(ProjectDir)\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll" #>
+<#@ import namespace="Microsoft.Extensions.Configuration" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\net6.0\Microsoft.Extensions.Configuration.json.dll" #>
+<#@ import namespace="Microsoft.Extensions.Configuration.json" #>
+
 
 <#
     var dbClient = GetDbInstance();
-    var tableName= "t_attachment_REVISE";
+    var tableName= "t_short_url";
     var columns = dbClient.DbSchema.GetColumnInfosByTableName(tableName);
  #>
 
@@ -16,10 +21,8 @@ using System.Text;
 using System.Collections.Generic; 
 using System.Data;
 
-using FD.BAS.Repository;
-using FD.BAS.Repository.Models;
 
-namespace FD.BAS.Domain 
+namespace FD.ShortUrl.Domain 
 {
     
     [Table("<#= tableName #>")]

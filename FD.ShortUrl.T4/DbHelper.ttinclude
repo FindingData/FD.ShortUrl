@@ -2,16 +2,17 @@
 <#@ CleanupBehavior processor="T4VSHost" CleanupAfterProcessingtemplate="true" #>
 <#@ assembly name="System.Core"#>
 <#@ assembly name="System.Data" #>
-<#@ assembly name="System.xml" #>
-<#@ assembly name="System.Configuration" #>
-<#@ assembly name="$(ProjectDir)\bin\Debug\Oracle.ManagedDataAccess.dll" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\net6.0\Oracle.ManagedDataAccess.dll" #>
 <#@ import namespace="System"#>
 <#@ import namespace="System.Collections.Generic"#>
-<#@ import namespace="System.Data"#>
 <#@ import namespace="System.Data.SqlClient"#>
-<#@ import namespace="System.Configuration" #>
-<#@ assembly name="$(ProjectDir)\bin\Debug\FD.Tiny.ProjectBuilder.dll" #>
-<#@ import namespace="FD.Tiny.ProjectBuilder" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\net6.0\FD.ProjectBuilder.Core.dll" #>
+<#@ import namespace="FD.ProjectBuilder.Core" #>
+<#@ import namespace="FD.ProjectBuilder.Core.Model" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll" #>
+<#@ import namespace="Microsoft.Extensions.Configuration" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\net6.0\Microsoft.Extensions.Configuration.json.dll" #>
+<#@ import namespace="Microsoft.Extensions.Configuration.json" #>
 
 <#+     
          public DbClient GetDbInstance()
@@ -19,27 +20,26 @@
             
             DbClient db = new DbClient(new DBSetting()
             {
-                ConnectionString = GetConnStr("BasDb",false),
+                ConnectionString = GetConnStr("ConnectionStrings:BaseDb"),
                 DBType = DBType.Oracle,
             });
             return db;
         }
 
 
-         public string GetConnStr(string alais,bool isWebApp)
-         {
-            var configFile = "App.config";
-            if(isWebApp)
-                configFile = "Web.config";
-            var path = Host.ResolveAssemblyReference("$(ProjectDir)"+configFile);
-            var map = new ExeConfigurationFileMap { ExeConfigFilename = path };           
-            var config =  ConfigurationManager.OpenMappedExeConfiguration(
-                                            map,ConfigurationUserLevel.None);  
-            var appSettings = config.AppSettings;  
-            var connectionStrings = config.ConnectionStrings.ConnectionStrings;
- 
-            return connectionStrings[alais].ConnectionString;            
+         public string GetConnStr(string alais)
+         {                            
+            var config =  InitConfiguration();                       
+            return config[alais];            
         } 
+
+         public IConfiguration InitConfiguration()
+        {
+            var config = new ConfigurationBuilder()
+                 .AddJsonFile($"appsettings.json", true, true)
+                 .Build();
+            return config;
+        }
  #>
 
 
