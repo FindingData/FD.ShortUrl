@@ -6,8 +6,7 @@
 
 <#@ assembly name="$(ProjectDir)\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll" #>
 <#@ import namespace="Microsoft.Extensions.Configuration" #>
-<#@ assembly name="$(ProjectDir)\bin\Debug\net6.0\Microsoft.Extensions.Configuration.json.dll" #>
-<#@ import namespace="Microsoft.Extensions.Configuration.json" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Json.dll" #>
 
 
 <#
