@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.ShortUrl.Api", "FD.ShortUrl.Api\FD.ShortUrl.Api.csproj", "{2E3A9A1A-1363-4421-8A1E-28F93750185E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.ShortUrl.Core", "FD.ShortUrl.Core\FD.ShortUrl.Core.csproj", "{8691DD1E-00AD-46FA-9A23-545B0E6E812E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.ShortUrl.Repository", "FD.ShortUrl.Repository\FD.ShortUrl.Repository.csproj", "{75925C7C-C3A6-4075-8E80-A9C9869B0195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FD.ShortUrl.Repository", "FD.ShortUrl.Repository\FD.ShortUrl.Repository.csproj", "{75925C7C-C3A6-4075-8E80-A9C9869B0195}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.ShortUrl.Domain", "FD.ShortUrl.Domain\FD.ShortUrl.Domain.csproj", "{1C31210A-7658-4BA6-841B-553F083E0EFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FD.ShortUrl.Domain", "FD.ShortUrl.Domain\FD.ShortUrl.Domain.csproj", "{1C31210A-7658-4BA6-841B-553F083E0EFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.ShortUrl.UTest", "FD.ShortUrl.UTest\FD.ShortUrl.UTest.csproj", "{EBDE302B-C545-4A88-BD95-0ACF55B996B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.ShortUrl.T4", "FD.ShortUrl.T4\FD.ShortUrl.T4.csproj", "{E574A32C-1BFC-43D4-BF09-0DF2047E7710}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FD.ShortUrl.T4", "FD.ShortUrl.T4\FD.ShortUrl.T4.csproj", "{E574A32C-1BFC-43D4-BF09-0DF2047E7710}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FD.ShortUrl.Api", "FD.ShortUrl.Api\FD.ShortUrl.Api.csproj", "{4F4BCC44-BA3F-419E-9902-D72234E27B07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2E3A9A1A-1363-4421-8A1E-28F93750185E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E3A9A1A-1363-4421-8A1E-28F93750185E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E3A9A1A-1363-4421-8A1E-28F93750185E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E3A9A1A-1363-4421-8A1E-28F93750185E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8691DD1E-00AD-46FA-9A23-545B0E6E812E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8691DD1E-00AD-46FA-9A23-545B0E6E812E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8691DD1E-00AD-46FA-9A23-545B0E6E812E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{E574A32C-1BFC-43D4-BF09-0DF2047E7710}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E574A32C-1BFC-43D4-BF09-0DF2047E7710}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E574A32C-1BFC-43D4-BF09-0DF2047E7710}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F4BCC44-BA3F-419E-9902-D72234E27B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F4BCC44-BA3F-419E-9902-D72234E27B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F4BCC44-BA3F-419E-9902-D72234E27B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F4BCC44-BA3F-419E-9902-D72234E27B07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

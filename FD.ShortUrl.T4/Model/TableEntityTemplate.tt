@@ -1,0 +1,50 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ output extension=".cs" #>
+
+using System.Text;
+using System.Collections.Generic; 
+using System.Data;
+
+
+namespace <#= NameSpace #>
+{
+    
+    [Table("<#= Table.name #>")]
+	public partial class <#= TransTableToClass(Table.name) #>PO :IEntity
+	{		      
+        <#        foreach (var column in Table.columns) { #> 	        						  
+         /// <summary>
+		/// <#=                column.comment == null?"":column.comment #>
+        /// </summary>    
+        <#            if(column.is_primary) { #>    
+		[Key("seq_<#=                    Table.name #>")]
+		<#            }else if(column.name == "CREATE_TIME" || column.name=="IS_DELETED"){ #>		
+        [Computed]
+        <#            } #>
+        public <#=                GetColumnType(column) #> <#            if(column.is_nullable && GetColumnType(column) !="String"){ #>?<#            } #>
+ <#=                column.name #>
+        {
+            get;set;
+        }	
+
+    <#        }  #>		
+    }
+}
+
+<#+
+  public string TransTableToClass(string name)
+    {
+        string[] words = name.ToLower().Split('_');
+        string cName = string.Empty;
+        for( int i = 1; i < words.Length; i++ )
+        {
+            cName += words[i].Substring(0, 1).ToUpper() + words[i].Substring(1,words[i].Length - 1);
+        }
+        return cName;
+    }
+#>

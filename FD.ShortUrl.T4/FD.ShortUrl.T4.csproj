@@ -2,34 +2,40 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FD.ProjectBuilder.Core" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.50" />
+	  <PackageReference Include="Dapper" Version="2.0.123" />
+	  <PackageReference Include="FD.ProjectBuilder.Core" Version="1.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+	  <PackageReference Include="mono.texttemplating" Version="2.2.1" />
+	  <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.50" />
+	  <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+	  <TextTemplate Include="**\*.tt" />
+	  <Generated Include="**\*.Generated.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Model\Single.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Single.cs</LastGenOutput>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+   
   </ItemGroup>
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Model\Single.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Single.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<Target Name="TextTemplateTransform" BeforeTargets="BeforeBuild">
+		<Exec WorkingDirectory="$(ProjectDir)" Command="dotnet t4 %(TextTemplate.Identity) -c $(RootNameSpace).%(TextTemplate.Filename) -o %(TextTemplate.Filename).Generated.cs" />
+	</Target>
 
+	<Target Name="TextTemplateClean" AfterTargets="Clean">
+		<Delete Files="@(Generated)" />
+	</Target>
 </Project>
