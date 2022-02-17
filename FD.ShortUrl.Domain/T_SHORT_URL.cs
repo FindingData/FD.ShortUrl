@@ -3,20 +3,21 @@
 using System.Text;
 using System.Collections.Generic; 
 using System.Data;
-
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FD.ShortUrl.Domain
 {
     
     [Table("T_SHORT_URL")]
-	public partial class ShortUrlPO :IEntity
+	public partial class ShortUrlPO 
 	{		      
          	        						  
          /// <summary>
 		/// 短链ID
         /// </summary>    
             
-		[Key("seq_T_SHORT_URL")]
+		[Key]
 		        public int  SHORT_URL_ID
         {
             get;set;
