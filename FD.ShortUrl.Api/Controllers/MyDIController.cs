@@ -1,6 +1,7 @@
 ﻿using FD.ShortUrl.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace FD.ShortUrl.Api.Controllers
 {
@@ -10,8 +11,15 @@ namespace FD.ShortUrl.Api.Controllers
     {
         private readonly IMyDependency _myDependency;
 
-        public MyDIController(IMyDependency myDependency)
-        {
+        public MyDIController(IMyDependency myDependency,
+       IEnumerable<IMyDependency> myDependencies)
+        {        
+           
+            Trace.Assert(myDependency is DifferentDependency);
+
+            var dependencyArray = myDependencies.ToArray();
+            Trace.Assert(dependencyArray[0] is MyDependency);
+            Trace.Assert(dependencyArray[1] is DifferentDependency);
             _myDependency = myDependency;
         }
 
