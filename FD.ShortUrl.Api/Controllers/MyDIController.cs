@@ -13,13 +13,13 @@ namespace FD.ShortUrl.Api.Controllers
 
         public MyDIController(IMyDependency myDependency,
        IEnumerable<IMyDependency> myDependencies)
-        {        
-           
-            Trace.Assert(myDependency is DifferentDependency);
+        {
+
+            Console.WriteLine(myDependency is DifferentDependency);
 
             var dependencyArray = myDependencies.ToArray();
-            Trace.Assert(dependencyArray[0] is MyDependency);
-            Trace.Assert(dependencyArray[1] is DifferentDependency);
+            Console.WriteLine(dependencyArray[0] is MyDependency);
+            Console.WriteLine(dependencyArray[1] is DifferentDependency);
             _myDependency = myDependency;
         }
 

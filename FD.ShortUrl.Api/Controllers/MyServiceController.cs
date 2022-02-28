@@ -1,0 +1,33 @@
+﻿using FD.ShortUrl.Core;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FD.ShortUrl.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MyServiceController : ControllerBase
+    {
+        private readonly Service1 _service1;
+        private readonly Service2 _service2;
+        private readonly IService3 _service3;
+
+        public MyServiceController(Service1 service1, Service2 service2, IService3 service3)
+        {
+            _service1 = service1;
+            _service2 = service2;
+            _service3 = service3;
+        }
+
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            _service1.Write("MyService.OnGet");
+            _service2.Write("MyService.OnGet");
+            _service3.Write("MyService.OnGet");
+            return Ok();
+        }
+
+    }
+}
