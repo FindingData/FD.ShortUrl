@@ -10,13 +10,13 @@ namespace FD.ShortUrl.Api.Controllers
     {
         private readonly Service1 _service1;
         private readonly Service2 _service2;
-        private readonly IService3 _service3;
+     
 
-        public MyServiceController(Service1 service1, Service2 service2, IService3 service3)
+        public MyServiceController(Service1 service1, Service2 service2)
         {
             _service1 = service1;
             _service2 = service2;
-            _service3 = service3;
+          
         }
 
 
@@ -25,7 +25,7 @@ namespace FD.ShortUrl.Api.Controllers
         {
             _service1.Write("MyService.OnGet");
             _service2.Write("MyService.OnGet");
-            _service3.Write("MyService.OnGet");
+            
             return Ok();
         }
 
