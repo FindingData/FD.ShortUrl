@@ -1,13 +1,15 @@
 
+using FD.ShortUrl.Domain;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.ConfigureHostOptions(o => o.ShutdownTimeout = TimeSpan.FromSeconds(5));
+builder.Services.AddControllers();
+
+builder.Services.AddConfig(builder.Configuration)
+    .Configure<PositionOption>(
+    builder.Configuration.GetSection(PositionOption.PositionOptions));
 
 var app = builder.Build();
-
-
-app.MapGet("/", () => "hello,world");
-
-app.MapGet("/stop", () => app.StopAsync());
-
+app.MapControllers();
+ 
 await app.RunAsync();

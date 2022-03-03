@@ -7,10 +7,21 @@ namespace FD.ShortUrl.Api.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
+        private IConfigurationRoot _configRoot;
+
+        public HomeController(IConfiguration configRoot) {
+            _configRoot = (IConfigurationRoot)configRoot;
+        }
+
         [HttpGet]
         public IActionResult Index()
-        {           
-            return Ok("hello");
+        {
+            string str = "";
+            foreach (var provider in _configRoot.Providers.ToList())
+            {
+                str += provider.ToString() + "\n";
+            }
+            return Ok(str);
         }
     }
 }
