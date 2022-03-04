@@ -19,11 +19,13 @@ namespace FD.ShortUrl.Api.Controllers
         public IActionResult Index()
         {
             var myKeyValue = _config["MyKey"];
+            var eKeyValue = _config["EKey"];
             var title = _config["PositionOptions:Title"];
             var name = _config["PositionOptions:Name"];
             var defaultLogLevel = _config["Logging:LogLevel:Default"];
 
             return Content($"MyKey value: {myKeyValue} \n" +
+                           $"EKey: {eKeyValue} \n" +
                            $"Title: {title} \n" +
                            $"Name: {name} \n" +
                            $"Default Log Level: {defaultLogLevel}");
