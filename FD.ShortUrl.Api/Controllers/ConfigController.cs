@@ -76,5 +76,26 @@ namespace FD.ShortUrl.Api.Controllers
             return Content($"{number}");
         }
 
+        [HttpGet]
+        public IActionResult GetArray()
+        {
+            var _array = new ArrayExample();
+            if (_array == null)
+            {
+                throw new ArgumentNullException(nameof(_array));
+            }
+
+            _array = _config.GetSection("array").Get<ArrayExample>();
+            string s = String.Empty;
+
+            for (int j = 0; j < _array.Entries.Length; j++)
+            {
+                s += $"Index: {j}  Value:  {_array.Entries[j]} \n";
+            }
+
+            return Content(s);
+        }
+
+
     }
 }
