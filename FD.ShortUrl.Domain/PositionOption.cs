@@ -13,5 +13,7 @@ namespace FD.ShortUrl.Domain
         public string Name { get; set; } = string.Empty;
         public string Position { get; set; } = string.Empty;
 
+        public int? Value { get; set; }
+
     }     
 }

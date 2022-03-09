@@ -1,10 +1,17 @@
-var builder = WebApplication.CreateBuilder(args);
+//using Microsoft.EntityFrameworkCore;
+using FD.ShortUrl.Domain;
 
-builder.Host.ConfigureDefaults(args);
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-var app = builder.Build();
+builder.Services.Configure<PositionOption>(options =>
+{
+    options.Title = "title in delegate";
+    options.Name = "Value configured in delegate";
+    options.Value = 500;
+});
 
+var app = builder.Build();
 app.MapControllers();
 await app.RunAsync();

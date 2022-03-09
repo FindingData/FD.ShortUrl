@@ -21,6 +21,7 @@ namespace FD.ShortUrl.Api.Controllers
         public IActionResult Index()
         {
             return Content($"Title: {_options.Title} \n" +
+                        $"Value: {_options.Value} \n" +
                      $"Name: {_options.Name}");
         }
     }

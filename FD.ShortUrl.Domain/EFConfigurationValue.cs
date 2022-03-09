@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FD.ShortUrl.Domain
 {
-    public class ArrayExample
+    public class EFConfigurationValue
     {
-        //public string[] Entries { get; set; } = new string[] { "", "" };
-        public string[]? Entries { get; set; }
+        public string Id { get; set; } = String.Empty;
+        public string Value { get; set; } = String.Empty;
     }
 }

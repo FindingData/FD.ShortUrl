@@ -76,15 +76,14 @@ namespace FD.ShortUrl.Api.Controllers
             return Content($"{number}");
         }
 
+        public ArrayExample? _array { get; private set; } = new ArrayExample();
         [HttpGet]
         public IActionResult GetArray()
         {
-            var _array = new ArrayExample();
             if (_array == null)
             {
                 throw new ArgumentNullException(nameof(_array));
             }
-
             _array = _config.GetSection("array").Get<ArrayExample>();
             string s = String.Empty;
 
@@ -94,6 +93,18 @@ namespace FD.ShortUrl.Api.Controllers
             }
 
             return Content(s);
+        }
+
+        [HttpGet]
+        public IActionResult GetCustomer()
+        {
+            var quote1 = _config["quote1"];
+            var quote2 = _config["quote2"];
+            var quote3 = _config["quote3"];
+         
+            return Content($"quote1 value: {quote1} \n" +
+                         $"quote2: {quote2} \n" +
+                         $"quote3: {quote3} \n");
         }
 
 
