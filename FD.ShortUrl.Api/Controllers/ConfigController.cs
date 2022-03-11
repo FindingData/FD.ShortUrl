@@ -1,6 +1,8 @@
 ﻿using FD.ShortUrl.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using System.Text.RegularExpressions;
 
 namespace FD.ShortUrl.Api.Controllers
 {
@@ -107,6 +109,7 @@ namespace FD.ShortUrl.Api.Controllers
                          $"quote3: {quote3} \n");
         }
 
+        
 
     }
 }
