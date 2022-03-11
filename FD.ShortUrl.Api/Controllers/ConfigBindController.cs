@@ -21,7 +21,6 @@ namespace FD.ShortUrl.Api.Controllers
             try
             {
                 var configValue = _options.Value;
-
             }
             catch (OptionsValidationException ex)
             {
@@ -30,7 +29,6 @@ namespace FD.ShortUrl.Api.Controllers
                     _logger.LogError(failure);
                 }
             }
-
         }
 
         [HttpGet]
@@ -40,8 +38,9 @@ namespace FD.ShortUrl.Api.Controllers
             string msg;
             try
             {
-                msg = $"Key1: {_options.Value} \n" +
-                      $"Key2: {_options.Value2} \n" ;
+                msg = $"Name: {_options.Name} \n" +
+                      $"Key1: {_options.Value} \n" +
+                      $"Key2: {_options.Value2} \n";
             }
             catch (OptionsValidationException optValEx)
             {

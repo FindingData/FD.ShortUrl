@@ -14,7 +14,7 @@
       "commandLineArgs": "-k1 value1 -k2 value2 --alt3=value2 /alt4=value3 --alt5 value5 /alt6 value6",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_ENVIRONMENT": "Production",
         "EKey": "form launchsettings.json",
         "PREFIX_MyKey": "MyKey1",
         "MyKey": "MyKey2"

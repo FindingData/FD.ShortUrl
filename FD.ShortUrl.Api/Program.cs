@@ -1,26 +1,24 @@
-
-using FD.ShortUrl.Domain;
-using Microsoft.Extensions.Options;
+using FD.ShortUrl.Repository;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 builder.Services.AddControllers();
-
-builder.Services.AddOptions<PositionOption>()
-            .Bind(builder.Configuration.GetSection(PositionOption.PositionOptions))
-            .ValidateDataAnnotations()
-            .Validate(config =>
-            {
-                if (config.Value != 0)
-                {
-                    return config.Value > config.Value2;
-                }
-
-                return true;
-            }, "Key3 must be > than Key2.");   // Failure message.;
-
-builder.Services.AddSingleton<IValidateOptions<PositionOption>, MyConfigValidation>();
+var configuration = builder.Configuration;
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+    opt.UseOracle(configuration.GetConnectionString("baseDb")));
 
 var app = builder.Build();
+
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+
 app.MapControllers();
-await app.RunAsync();
+
+app.Run();
