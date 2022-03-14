@@ -15,7 +15,7 @@ namespace FD.ShortUrl.Api.Controllers
         //}
 
         public LogController(ILoggerFactory logger)
-        {
+        {            
             _logger = logger.CreateLogger("LogController");
         }
 

@@ -31,7 +31,7 @@ namespace FD.ShortUrl.Api.Controllers
             }
         }
 
-        [HttpGet]
+    
         [HttpGet]
         public IActionResult Index()
         {

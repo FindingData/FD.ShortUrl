@@ -4,12 +4,13 @@ using FD.ShortUrl.Api;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
- 
-var app = builder.Build();
 
-app.UseRouting();
-app.UseMiddleware<ProductsMiddleware>();
+ 
+builder.Services.AddRouting(options =>
+    options.ConstraintMap["slugify"] = typeof(SlugifyParameterTransformer));
+
+var app = builder.Build();
+  
 app.MapControllers();
-// Approach 2: Routing.
-app.MapGet("/Routing", () => "Routing.");
+
 app.Run();

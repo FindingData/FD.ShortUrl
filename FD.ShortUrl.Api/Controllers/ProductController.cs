@@ -16,11 +16,11 @@ namespace FD.ShortUrl.Api.Controllers
             _middleware = middleware;
         }
 
-
-        [HttpGet]
+        
         [HttpGet]
         public async void Index()
         {
+            
             await _middleware.InvokeAsync(HttpContext);            
         }
     }
