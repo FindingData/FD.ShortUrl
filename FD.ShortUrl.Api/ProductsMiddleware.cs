@@ -13,7 +13,7 @@ namespace FD.ShortUrl.Api
         {
             httpContext.Response.ContentType = MediaTypeNames.Text.Plain;
 
-            var productsPath = _linkGenerator.GetPathByAction("GetItems", "ShortUrl");
+            var productsPath = _linkGenerator.GetPathByAction("Bind", "Config");
 
             await httpContext.Response.WriteAsync(
                 $"Go to {productsPath} to see our products.");
