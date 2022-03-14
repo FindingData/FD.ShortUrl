@@ -1,24 +1,15 @@
-using FD.ShortUrl.Repository;
-using Microsoft.EntityFrameworkCore;
+
+using FD.ShortUrl.Api;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Services.AddControllers();
-var configuration = builder.Configuration;
-builder.Services.AddDbContext<ApplicationDbContext>(opt =>
-    opt.UseOracle(configuration.GetConnectionString("baseDb")));
+
+
 
 var app = builder.Build();
+ 
 
+app.UseRouting();
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
-
-
-app.MapControllers();
-
+// Approach 2: Routing.
+app.MapGet("/Routing", () => "Routing.");
 app.Run();

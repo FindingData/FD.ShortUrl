@@ -22,8 +22,10 @@ namespace FD.ShortUrl.Api.Controllers
 
         public void Index()
         {
-             var message = $"LogController  visited at {DateTime.UtcNow.ToLongTimeString()}";
+             var message = $"LogController  visited at {DateTime.UtcNow.ToLongTimeString()}";             
             _logger.LogInformation(message);
+            _logger.LogDebug(message);
+            _logger.LogWarning(message);            
         }
     }
 }
