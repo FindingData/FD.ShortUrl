@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Docs.Samples;
 using Microsoft.EntityFrameworkCore;
+using Dapper.EntityFramework;
 
 namespace FD.ShortUrl.Api.Controllers
 {
@@ -61,8 +62,8 @@ namespace FD.ShortUrl.Api.Controllers
         public async Task<ActionResult> CreateItem(ShortUrlPO shortUrl)
         {
             try
-            {
-                var result = await _context.ShortUrls.Add(shortUrl);
+            {                               
+                var result = _context.ShortUrls.Add(shortUrl);
                 await _context.SaveChangesAsync();
                 return Content(result.Entity.SHORT_URL_ID.ToString());
             }

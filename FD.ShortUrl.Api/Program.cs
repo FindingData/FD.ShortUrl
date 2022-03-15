@@ -1,23 +1,29 @@
 
 using FD.ShortUrl.Api;
+using FD.ShortUrl.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-builder.Services.AddRefitClient<IGitHubClient>()
-    .ConfigureHttpClient(httpClient =>
-    {
-        httpClient.BaseAddress = new Uri("https://api.github.com/");
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+    opt.UseOracle(builder.Configuration.GetConnectionString("baseDb")));
 
-        // using Microsoft.Net.Http.Headers;
-        // The GitHub API requires two headers.
-        httpClient.DefaultRequestHeaders.Add(
-            HeaderNames.Accept, "application/vnd.github.v3+json");
-        httpClient.DefaultRequestHeaders.Add(
-            HeaderNames.UserAgent, "HttpRequestsSample");
-    });
+builder.Services.AddHttpClient("su", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("http://localhost:3302/");
 
+    // using Microsoft.Net.Http.Headers;
+    // The GitHub API requires two headers.
+    httpClient.DefaultRequestHeaders.Add(
+        HeaderNames.Accept, " application/json");
+    httpClient.DefaultRequestHeaders.Add(
+        HeaderNames.UserAgent, "HttpRequestsSample");
+});
 var app = builder.Build();
 app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}"); //mvc
 app.Run();

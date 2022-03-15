@@ -21,6 +21,7 @@ namespace FD.ShortUrl.Api.Controllers
         }
         public async Task Post()
         {
+          
             var item = new ShortUrlPO()
             {
                 CREATED_BY = 1,
@@ -31,7 +32,9 @@ namespace FD.ShortUrl.Api.Controllers
                 JsonSerializer.Serialize(item),
                 Encoding.UTF8,
                 Application.Json); // using static System.Net.Mime.MediaTypeNames;
-            var httpClient = _httpClientFactory.CreateClient();
+            
+            
+            var httpClient = _httpClientFactory.CreateClient("su");
             using var httpResponseMessage =
                 await httpClient.PostAsync("/api/ShortUrls", itemJson);
 

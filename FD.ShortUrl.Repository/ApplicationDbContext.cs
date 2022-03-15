@@ -15,7 +15,15 @@ namespace FD.ShortUrl.Repository
            : base(options)
         {            
         }
-        public DbSet<ShortUrlPO> ShortUrls { get; set; } = null!;        
+        public DbSet<ShortUrlPO> ShortUrls { get; set; } = null!;
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasSequence<int>("seq_short_url");
+
+           
+        }
     }
 
 }
