@@ -7,7 +7,8 @@ namespace FD.ShortUrl.Api.Controllers
     [ApiController]
     public class NoZeroesController : ControllerBase
     {
-        [HttpGet("{id:noZeroes}")]
+        //[HttpGet("{id:noZeroes}")]
+        [HttpGet]
         public IActionResult Get(string id) =>
         Content(id);
     }
