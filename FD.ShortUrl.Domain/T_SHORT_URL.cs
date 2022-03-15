@@ -27,7 +27,7 @@ namespace FD.ShortUrl.Domain
          /// <summary>
 		/// 短链码
         /// </summary>    
-                public string  SHORT_CODE
+                public string?  SHORT_CODE
         {
             get;set;
         }	
@@ -36,7 +36,7 @@ namespace FD.ShortUrl.Domain
          /// <summary>
 		/// 链接URL
         /// </summary>    
-                public string  URL
+                public string?  URL
         {
             get;set;
         }	
@@ -45,7 +45,7 @@ namespace FD.ShortUrl.Domain
          /// <summary>
 		/// 创建时间
         /// </summary>    
-                public DateTime ? CREATED_TIME
+                public DateTime? CREATED_TIME
         {
             get;set;
         }	
@@ -54,7 +54,7 @@ namespace FD.ShortUrl.Domain
          /// <summary>
 		/// 创建人
         /// </summary>    
-                public int ? CREATED_BY
+                public int? CREATED_BY
         {
             get;set;
         }	

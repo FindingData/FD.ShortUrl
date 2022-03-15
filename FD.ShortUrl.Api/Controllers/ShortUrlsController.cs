@@ -59,13 +59,14 @@ namespace FD.ShortUrl.Api.Controllers
             return todoItem;
         }
 
-        public async Task<ActionResult> CreateItem(ShortUrlPO shortUrl)
+        public async Task<ActionResult<string>> CreateItem(ShortUrlPO shortUrl)
         {
             try
             {                               
-                var result = _context.ShortUrls.Add(shortUrl);
+                var entity = _context.ShortUrls.Add(shortUrl);
                 await _context.SaveChangesAsync();
-                return Content(result.Entity.SHORT_URL_ID.ToString());
+                var result = entity.Entity.SHORT_URL_ID;
+                return result.ToString();
             }
             catch (Exception ex)
             {
@@ -74,39 +75,86 @@ namespace FD.ShortUrl.Api.Controllers
             return Content("ok");
         }
 
+        [HttpPut("{short_url_id}")]
+        public async Task<ActionResult<bool>> SaveItem(int short_url_id, [FromBody]ShortUrlPO shortUrl)
+        {
+            try
+            {
+                var result = false;
+                var list = await _context.ShortUrls.Where(f => f.SHORT_URL_ID == short_url_id).ToListAsync();
+                var entity = list.First();
+                if (entity != null)
+                {
+                    entity.URL = shortUrl.URL;
+                    entity.SHORT_CODE = shortUrl.SHORT_CODE;
+                    entity.CREATED_BY = shortUrl.CREATED_BY;
+                    result = (await _context.SaveChangesAsync()) > 0;
+                }
+                
+                return result;
+            }
+            catch (Exception ex)
+            {
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<ShortUrlPO>> GetTodoItem(int id)
-        //{
-        //    _logger.LogInformation(MyLogEvents.GetItem, "Getting item {Id}", id);
-
-        //    var todoItem = await _context.ShortUrls.Where(f=>f.SHORT_URL_ID == id).ToListAsync();
-
-        //    if (!todoItem.Any())
-        //    {
-        //        _logger.LogWarning(MyLogEvents.GetItemNotFound, "Get({Id}) NOT FOUND", id);
-        //        return NotFound();
-        //    }
-
-        //    var routeInfo = ControllerContext.ToCtxString(id);
-        //    _logger.LogInformation(MyLogEvents.TestItem, routeInfo);
-
-        //    try
-        //    {
-        //        if (id == 3885)
-        //        {
-        //            throw new Exception("Test exception");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogWarning(MyLogEvents.GetItemNotFound, ex, "TestExp({Id})", id);
-        //        return NotFound();
-        //    }
+            }
+            return Content("false");
+        }
 
 
-        //    return todoItem.First();
-        //}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<bool>> DeleteItem(int id)
+        {
+            try
+            {             
+                var entity = new ShortUrlPO()
+                {
+                    SHORT_URL_ID = id
+                };
+                _context.Remove(entity);
+                var result = (await _context.SaveChangesAsync()) > 0;
 
-    }
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Content("false");
+
+        }
+
+            //[HttpGet("{id}")]
+            //public async Task<ActionResult<ShortUrlPO>> GetTodoItem(int id)
+            //{
+            //    _logger.LogInformation(MyLogEvents.GetItem, "Getting item {Id}", id);
+
+            //    var todoItem = await _context.ShortUrls.Where(f=>f.SHORT_URL_ID == id).ToListAsync();
+
+            //    if (!todoItem.Any())
+            //    {
+            //        _logger.LogWarning(MyLogEvents.GetItemNotFound, "Get({Id}) NOT FOUND", id);
+            //        return NotFound();
+            //    }
+
+            //    var routeInfo = ControllerContext.ToCtxString(id);
+            //    _logger.LogInformation(MyLogEvents.TestItem, routeInfo);
+
+            //    try
+            //    {
+            //        if (id == 3885)
+            //        {
+            //            throw new Exception("Test exception");
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        _logger.LogWarning(MyLogEvents.GetItemNotFound, ex, "TestExp({Id})", id);
+            //        return NotFound();
+            //    }
+
+
+            //    return todoItem.First();
+            //}
+
+        }
 }
