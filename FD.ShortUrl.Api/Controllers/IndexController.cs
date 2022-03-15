@@ -14,7 +14,7 @@ namespace FD.ShortUrl.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Home()
         {
             string str = "";
             foreach (var provider in _configRoot.Providers.ToList())

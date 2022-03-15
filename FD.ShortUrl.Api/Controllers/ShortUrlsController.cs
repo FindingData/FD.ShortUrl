@@ -58,6 +58,21 @@ namespace FD.ShortUrl.Api.Controllers
             return todoItem;
         }
 
+        public async Task<ActionResult> CreateItem(ShortUrlPO shortUrl)
+        {
+            try
+            {
+                var result = await _context.ShortUrls.Add(shortUrl);
+                await _context.SaveChangesAsync();
+                return Content(result.Entity.SHORT_URL_ID.ToString());
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Content("ok");
+        }
+
 
         //[HttpGet("{id}")]
         //public async Task<ActionResult<ShortUrlPO>> GetTodoItem(int id)

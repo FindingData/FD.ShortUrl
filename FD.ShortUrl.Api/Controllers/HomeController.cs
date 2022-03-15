@@ -13,5 +13,18 @@ namespace FD.ShortUrl.Api.Controllers
         {
             return Content("subIndex");
         }
+
+        public IActionResult Subscribe(int i)
+        {
+            try
+            {
+                var a = 100 / i;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("参数错误");
+            }
+            return Content("Subscribe");
+        }
     }
 }

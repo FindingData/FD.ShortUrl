@@ -1,23 +1,23 @@
 
 using FD.ShortUrl.Api;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.Net.Http.Headers;
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+builder.Services.AddRefitClient<IGitHubClient>()
+    .ConfigureHttpClient(httpClient =>
+    {
+        httpClient.BaseAddress = new Uri("https://api.github.com/");
 
-builder.Services.AddControllers(options => { 
- options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
-});
-
- 
-builder.Services.AddRouting(options =>
-    options.ConstraintMap["slugify"] = typeof(SlugifyParameterTransformer));
+        // using Microsoft.Net.Http.Headers;
+        // The GitHub API requires two headers.
+        httpClient.DefaultRequestHeaders.Add(
+            HeaderNames.Accept, "application/vnd.github.v3+json");
+        httpClient.DefaultRequestHeaders.Add(
+            HeaderNames.UserAgent, "HttpRequestsSample");
+    });
 
 var app = builder.Build();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller:slugify=Home}/{action:slugify=Index}/{id?}");
-
 app.MapControllers();
-
 app.Run();
