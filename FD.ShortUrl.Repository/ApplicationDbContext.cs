@@ -20,9 +20,9 @@ namespace FD.ShortUrl.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasSequence<int>("seq_short_url");
+            modelBuilder.HasSequence<int>("SEQ_SHORT_URL");
 
-           
+            modelBuilder.Entity<ShortUrlPO>().Property(o=>o.SHORT_URL_ID).UseHiLo("SEQ_SHORT_URL");
         }
     }
 
