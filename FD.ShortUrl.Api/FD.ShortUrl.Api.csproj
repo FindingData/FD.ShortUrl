@@ -14,9 +14,18 @@
 
   <ItemGroup>
     <None Remove="site.html" />
+    <None Remove="wwwimage\index.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwimage\index.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\file\1.rtf" />
     <None Include="wwwroot\images\1.jpg" />
     <None Include="wwwroot\images\2.jpg" />
   </ItemGroup>

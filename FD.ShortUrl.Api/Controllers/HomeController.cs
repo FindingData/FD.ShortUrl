@@ -11,6 +11,11 @@ namespace FD.ShortUrl.Api.Controllers
             return Content("index");
         }
 
+        public IActionResult Bad()
+        {
+            return BadRequest(ModelState);
+        }
+
         public IActionResult SubIndex()
         {
             return Content("subIndex");

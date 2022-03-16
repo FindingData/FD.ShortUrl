@@ -58,6 +58,9 @@ namespace FD.ShortUrl.Api.Controllers
             return todoItem;
         }
 
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<string>> CreateItem(ShortUrlPO shortUrl)
         {
             try
@@ -65,7 +68,8 @@ namespace FD.ShortUrl.Api.Controllers
                 var entity = _context.ShortUrls.Add(shortUrl);
                 await _context.SaveChangesAsync();
                 var result = entity.Entity.SHORT_URL_ID;
-                return result.ToString();
+                var act = nameof(GetTodoItem);
+                return CreatedAtAction(nameof(GetTodoItem), new { id = result });
             }
             catch (Exception ex)
             {
