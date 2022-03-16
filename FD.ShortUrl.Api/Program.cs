@@ -6,26 +6,17 @@ using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-
-builder.Services.AddScoped<IOperationScoped, OperationScoped>();
-
-builder.Services.AddTransient<OperationHandler>();
-builder.Services.AddTransient<OperationResponseHandler>();
-
-builder.Services.AddHttpClient("PollyWaitAndRetry", httpClient =>
+builder.Services.AddHttpClient("github", httpClient =>
 {
-    httpClient.BaseAddress = new Uri("http://localhost:3302/");
+    httpClient.BaseAddress = new Uri("https://api.github.com/");
+
     // using Microsoft.Net.Http.Headers;
     // The GitHub API requires two headers.
     httpClient.DefaultRequestHeaders.Add(
-        HeaderNames.Accept, " application/json");
+        HeaderNames.Accept, "application/vnd.github.v3+json");
     httpClient.DefaultRequestHeaders.Add(
         HeaderNames.UserAgent, "HttpRequestsSample");
-})
-    .AddTransientHttpErrorPolicy(policyBuilder =>
-        policyBuilder.WaitAndRetryAsync(
-            3, retryNumber => TimeSpan.FromMilliseconds(600)));
-
+});
 var app = builder.Build();
 app.MapControllers();
 app.MapControllerRoute(
