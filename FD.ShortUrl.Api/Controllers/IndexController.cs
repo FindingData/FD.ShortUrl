@@ -15,13 +15,14 @@ namespace FD.ShortUrl.Api.Controllers
 
         [HttpGet]
         public IActionResult Home()
-        {
+        {            
             string str = "";
             foreach (var provider in _configRoot.Providers.ToList())
             {
                 str += provider.ToString() + "\n";
             }
-            return Ok(str);
+            //Thread.Sleep(7000);
+            return NotFound(str);
         }
     }
 }
