@@ -1,31 +1,12 @@
-using FD.ShortUrl.Api;
-using FD.ShortUrl.Repository;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddMvcCore().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.PropertyNamingPolicy = new UpperCaseNamingPolicy();
-    options.JsonSerializerOptions.WriteIndented = true;
-});
-builder.Services.AddDbContext<ApplicationDbContext>(opt =>
-    opt.UseOracle(builder.Configuration.GetConnectionString("baseDb")));
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.AddAuthorization(options =>
-{
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build();
-});
-
+builder.Services.AddDirectoryBrowser();
 
 var app = builder.Build();
 
@@ -35,23 +16,29 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
+var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath, "images"));
+var requestPath = "/MyImages";
 
-var cacheMaxAgeOneWeek = (60 * 60 * 24 * 7).ToString();
+// Enable displaying browser links.
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(
-           Path.Combine(builder.Environment.ContentRootPath, "wwwimage")),
-    RequestPath = "/wwwimage"
+    FileProvider = fileProvider,
+    RequestPath = requestPath
 });
 
+app.UseDirectoryBrowser(new DirectoryBrowserOptions
+{
+    FileProvider = fileProvider,
+    RequestPath = requestPath
+});
 
-app.MapControllers();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"); //mvc
+app.UseAuthorization();
+
+app.MapDefaultControllerRoute();
+app.MapRazorPages();
+
 app.Run();
