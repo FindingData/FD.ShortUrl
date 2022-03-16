@@ -1,13 +1,12 @@
-
 using FD.ShortUrl.Api;
-using FD.ShortUrl.Core;
 using FD.ShortUrl.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
-using Polly;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
+
 builder.Services.AddControllers();
 builder.Services.AddMvcCore().AddJsonOptions(options =>
 {
@@ -16,31 +15,40 @@ builder.Services.AddMvcCore().AddJsonOptions(options =>
 });
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseOracle(builder.Configuration.GetConnectionString("baseDb")));
-builder.Services.AddTransient<ValidateHeaderHandler>();
 
-builder.Services.AddHttpClient("PropagateHeaders", httpClient =>
-{
-    httpClient.BaseAddress = new Uri("http://localhost:3302/");
-    // using Microsoft.Net.Http.Headers;
-    // The GitHub API requires two headers.
-    httpClient.DefaultRequestHeaders.Add(
-        HeaderNames.Accept, " application/json");
-    httpClient.DefaultRequestHeaders.Add(
-        HeaderNames.UserAgent, "HttpRequestsSample");
-})
-    .AddHeaderPropagation();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddHeaderPropagation(options =>
+builder.Services.AddAuthorization(options =>
 {
-    options.Headers.Add("X-TraceId");
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
 });
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
 
-app.UseHeaderPropagation();
+app.UseStaticFiles();
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+
+var cacheMaxAgeOneWeek = (60 * 60 * 24 * 7).ToString();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "wwwimage")),
+    RequestPath = "/wwwimage"
+});
+
 
 app.MapControllers();
 app.MapControllerRoute(
