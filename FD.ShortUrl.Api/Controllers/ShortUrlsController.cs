@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Docs.Samples;
 using Microsoft.EntityFrameworkCore;
-using Dapper.EntityFramework;
 
 namespace FD.ShortUrl.Api.Controllers
 {
