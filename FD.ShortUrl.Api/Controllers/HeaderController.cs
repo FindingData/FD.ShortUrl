@@ -8,30 +8,32 @@ namespace FD.ShortUrl.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PollyRetryController : ControllerBase
+    public class HeaderController : ControllerBase
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public PollyRetryController(IHttpClientFactory httpClientFactory) =>
+        public HeaderController(IHttpClientFactory httpClientFactory) =>
             _httpClientFactory = httpClientFactory;
 
         public IEnumerable<ShortUrlPO>? GitHubBranches { get; set; }
 
         public async Task<IActionResult> Index()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get,"/api/Index");            
+            var request = new HttpRequestMessage(HttpMethod.Get,
+        "/api/ShortUrls");
+
             var httpClient = _httpClientFactory.CreateClient("PropagateHeaders");
-            using var httpResponseMessage =
-                await httpClient.SendAsync(request);
+            var httpResponseMessage = await httpClient.SendAsync(request);
+
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 using var contentStream =
                     await httpResponseMessage.Content.ReadAsStreamAsync();
 
-                return Content(await httpResponseMessage.Content.ReadAsStringAsync());
+                GitHubBranches = await JsonSerializer.DeserializeAsync
+                    <IEnumerable<ShortUrlPO>>(contentStream);               
             }
-            return NotFound();
-
+            return Content(JsonSerializer.Serialize(GitHubBranches));
         }
     }
 }

@@ -1,71 +1,49 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-var host = new HostBuilder()
-    .ConfigureServices(services =>
-    {
-        services.AddHttpClient();
-        services.AddTransient<GitHubService>();
-    })
-    .Build();
+using FD.ShortUrl.Api;
+using FD.ShortUrl.Core;
+using FD.ShortUrl.Repository;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
+using Polly;
 
-try
+var builder = WebApplication.CreateBuilder(args);
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddMvcCore().AddJsonOptions(options =>
 {
-    var gitHubService = host.Services.GetRequiredService<GitHubService>();
-    var gitHubBranches = await gitHubService.GetAspNetCoreDocsBranchesAsync();
+    options.JsonSerializerOptions.PropertyNamingPolicy = new UpperCaseNamingPolicy();
+    options.JsonSerializerOptions.WriteIndented = true;
+});
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+    opt.UseOracle(builder.Configuration.GetConnectionString("baseDb")));
+builder.Services.AddTransient<ValidateHeaderHandler>();
 
-    Console.WriteLine($"{gitHubBranches?.Count() ?? 0} GitHub Branches");
-
-    if (gitHubBranches is not null)
-    {
-        foreach (var gitHubBranch in gitHubBranches)
-        {
-            Console.WriteLine($"- {gitHubBranch.Name}");
-        }
-    }
-    Console.ReadLine();
-}
-catch (Exception ex)
+builder.Services.AddHttpClient("PropagateHeaders", httpClient =>
 {
-    host.Services.GetRequiredService<ILogger<Program>>()
-        .LogError(ex, "Unable to load branches from GitHub.");
-}
+    httpClient.BaseAddress = new Uri("http://localhost:3302/");
+    // using Microsoft.Net.Http.Headers;
+    // The GitHub API requires two headers.
+    httpClient.DefaultRequestHeaders.Add(
+        HeaderNames.Accept, " application/json");
+    httpClient.DefaultRequestHeaders.Add(
+        HeaderNames.UserAgent, "HttpRequestsSample");
+})
+    .AddHeaderPropagation();
 
-public class GitHubService
+builder.Services.AddHeaderPropagation(options =>
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    options.Headers.Add("X-TraceId");
+});
 
-    public GitHubService(IHttpClientFactory httpClientFactory) =>
-        _httpClientFactory = httpClientFactory;
+var app = builder.Build();
 
-    public async Task<IEnumerable<GitHubBranch>?> GetAspNetCoreDocsBranchesAsync()
-    {
-        var httpRequestMessage = new HttpRequestMessage(
-            HttpMethod.Get,
-            "https://api.github.com/repos/dotnet/AspNetCore.Docs/branches")
-        {
-            Headers =
-            {
-                { "Accept", "application/vnd.github.v3+json" },
-                { "User-Agent", "HttpRequestsConsoleSample" }
-            }
-        };
+// Configure the HTTP request pipeline.
+app.UseHttpsRedirection();
 
-        var httpClient = _httpClientFactory.CreateClient();
-        var httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
+app.UseHeaderPropagation();
 
-        httpResponseMessage.EnsureSuccessStatusCode();
-
-        using var contentStream =
-            await httpResponseMessage.Content.ReadAsStreamAsync();
-
-        return await JsonSerializer.DeserializeAsync
-            <IEnumerable<GitHubBranch>>(contentStream);
-    }
-}
-
-public record GitHubBranch(
-    [property: JsonPropertyName("name")] string Name);
+app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}"); //mvc
+app.Run();
