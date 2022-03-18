@@ -15,7 +15,7 @@ namespace FD.ShortUrl.Api.Controllers
         {
             _optionsDelegate = optionsDelegate;
         }
-
+        [HttpGet]
         public ContentResult Index()
         {
             return Content($"Option1: {_optionsDelegate.CurrentValue.Name} \n" +

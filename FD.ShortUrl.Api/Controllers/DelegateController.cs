@@ -17,6 +17,7 @@ namespace FD.ShortUrl.Api.Controllers
 
         public IEnumerable<ShortUrlPO>? GitHubBranches { get; set; }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var request = new HttpRequestMessage(HttpMethod.Get,

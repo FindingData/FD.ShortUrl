@@ -15,7 +15,7 @@ namespace FD.ShortUrl.Api.Controllers
         {
             _options = snapshotOptionsAccessor.Value;
         }
-
+        [HttpGet]
         public ContentResult Index()
         {
             return Content($"Name: {_options.Name} \n" +

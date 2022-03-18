@@ -13,10 +13,10 @@ namespace FD.ShortUrl.Api.Controllers
             _linkGenerator = linkGenerator;
 
         [Route("{id}")]
-
+        [HttpGet]
         public IActionResult Index(int id) =>
         Content(Url.Action("Edit", new { id = id })!);
-
+        [HttpGet]
         public IActionResult Index()
         {
             var indexPath = _linkGenerator.GetPathByAction(

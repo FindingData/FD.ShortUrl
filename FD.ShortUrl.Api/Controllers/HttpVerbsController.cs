@@ -14,12 +14,13 @@ namespace FD.ShortUrl.Api.Controllers
             _httpClientFactory = httpClientFactory;
 
 
-
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> Post()
         {
           
@@ -43,7 +44,7 @@ namespace FD.ShortUrl.Api.Controllers
             return Ok(result);
         }
 
-
+        [HttpPut]
         public async Task<IActionResult> Put()
         {
             var item = new ShortUrlPO()
@@ -70,6 +71,7 @@ namespace FD.ShortUrl.Api.Controllers
         }
 
 
+        [HttpDelete]
         public async Task<IActionResult> Delete()
         {
             var id = 62;

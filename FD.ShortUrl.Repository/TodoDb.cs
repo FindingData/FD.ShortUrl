@@ -14,5 +14,7 @@ namespace FD.ShortUrl.Repository
             : base(options) { }
 
         public DbSet<Todo> Todos => Set<Todo>();
+
+        public DbSet<Todo> TodoItems { get; set; } = null!;
     }
 }

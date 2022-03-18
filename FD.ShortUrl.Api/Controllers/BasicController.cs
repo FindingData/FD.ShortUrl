@@ -17,6 +17,7 @@ namespace FD.ShortUrl.Api.Controllers
 
         public IEnumerable<GitHubBranch>? GitHubBranches { get; set; }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             

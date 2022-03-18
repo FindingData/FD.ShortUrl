@@ -84,9 +84,7 @@ namespace FD.ShortUrl.Domain
                 public int ? IS_DELETE
         {
             get;set;
-        }	
-
-    		
+        }	    		
     }
 }
 

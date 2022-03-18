@@ -28,11 +28,8 @@ namespace FD.ShortUrl.Api.Controllers
 
         // GET: api/GetItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ShortUrlPO>>> GetItems()
-        {
-            var list = _context.ShortUrls.ToList();
-            return await _context.ShortUrls.ToListAsync();
-        }
+        public async Task<IList<ShortUrlPO>> GetItems() => await _context.ShortUrls.ToListAsync();
+        
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ShortUrlPO>> GetTodoItem(int id)

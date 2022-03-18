@@ -13,7 +13,7 @@
       "commandName": "Project",
       "commandLineArgs": "-k1 value1 -k2 value2 --alt3=value2 /alt4=value3 --alt5 value5 /alt6 value6",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      //"launchUrl": "swagger/v1/swagger.json",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "EKey": "form launchsettings.json",

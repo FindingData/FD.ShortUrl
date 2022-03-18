@@ -16,7 +16,7 @@ namespace FD.ShortUrl.Api.Controllers
             _httpClientFactory = httpClientFactory;
 
         public IEnumerable<ShortUrlPO>? GitHubBranches { get; set; }
-
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var request = new HttpRequestMessage(HttpMethod.Get,

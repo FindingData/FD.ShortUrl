@@ -17,7 +17,7 @@ namespace FD.ShortUrl.Api.Controllers
             _monthTopItem = namedOptionsAccessor.Get(TopItemSettings.Month);
             _yearTopItem = namedOptionsAccessor.Get(TopItemSettings.Year);
         }
-
+        [HttpGet]
         public ContentResult Index()
         {
             return Content($"Month:Name {_monthTopItem.Name} \n" +

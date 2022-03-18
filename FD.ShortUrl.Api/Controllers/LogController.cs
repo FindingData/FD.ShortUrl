@@ -19,7 +19,7 @@ namespace FD.ShortUrl.Api.Controllers
             _logger = logger.CreateLogger("LogController");
         }
 
-
+        [HttpGet]
         public void Index()
         {
              var message = $"LogController  visited at {DateTime.UtcNow.ToLongTimeString()}";             
