@@ -26,10 +26,28 @@ namespace FD.ShortUrl.Api.Controllers
             _logger = logger;
         }
 
-        // GET: api/GetItems
+        //// GET: api/GetItems
+        //[HttpGet("sync")]
+        //public IEnumerable<ShortUrlPO> GetItems()
+        //{
+        //    var list = _context.ShortUrls.ToList();
+        //    foreach (var item in list)
+        //    {
+        //        yield return item;
+        //    }
+        //}
+
         [HttpGet]
-        public async Task<IList<ShortUrlPO>> GetItems() => await _context.ShortUrls.ToListAsync();
-        
+        public async IAsyncEnumerable<ShortUrlPO> GetItems()
+        {
+            var list = _context.ShortUrls;
+
+            await foreach (var item in list)
+            {
+                yield return item;
+            }
+        }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ShortUrlPO>> GetTodoItem(int id)
