@@ -48,30 +48,46 @@ namespace FD.ShortUrl.Api.Controllers
             }
         }
 
-
+        // GET: api/TodoItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ShortUrlPO>> GetTodoItem(int id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShortUrlPO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetTodoItem(int id)
         {
-            ShortUrlPO todoItem;
+            var todoItems =  _context.ShortUrls.Where(f => f.SHORT_URL_ID == id).ToList();
 
-            using (_logger.BeginScope("using block message"))
-            {
-                _logger.LogInformation(MyLogEvents.GetItem, "Getting item {Id}", id);
-
-                var todoItems = await _context.ShortUrls.Where(f => f.SHORT_URL_ID == id).ToListAsync();
-
-                if (!todoItems.Any())
-                {
-                    _logger.LogWarning(MyLogEvents.GetItemNotFound,
-                        "Get({Id}) NOT FOUND", id);
-                    return NotFound();
-                }
-                todoItem = todoItems.First();
+            if (!todoItems.Any())
+            {                
+                return NotFound();
             }
-
-
-            return todoItem;
+ 
+            return Ok(todoItems.First());
         }
+
+
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<ShortUrlPO>> GetTodoItem(int id)
+        //{
+        //    ShortUrlPO todoItem;
+
+        //    using (_logger.BeginScope("using block message"))
+        //    {
+        //        _logger.LogInformation(MyLogEvents.GetItem, "Getting item {Id}", id);
+
+        //        var todoItems = await _context.ShortUrls.Where(f => f.SHORT_URL_ID == id).ToListAsync();
+
+        //        if (!todoItems.Any())
+        //        {
+        //            _logger.LogWarning(MyLogEvents.GetItemNotFound,
+        //                "Get({Id}) NOT FOUND", id);
+        //            return NotFound();
+        //        }
+        //        todoItem = todoItems.First();
+        //    }
+
+
+        //    return todoItem;
+        //}
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]

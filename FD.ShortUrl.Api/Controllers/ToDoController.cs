@@ -24,9 +24,9 @@ namespace FD.ShortUrl.Api.Controllers
             return await _context.TodoItems
                 .Select(x => ItemToDTO(x))
                 .ToListAsync();
-        }
+        }      
 
-        // GET: api/TodoItems/5
+
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoItemDTO>> GetTodoItem(int id)
         {
