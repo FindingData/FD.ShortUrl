@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FD.ShortUrl.Domain;
 using FD.ShortUrl.Repository;
@@ -55,8 +56,13 @@ namespace FD.ShortUrl.Api.Controllers
 
         [HttpGet]
         public IActionResult Get() =>
-                    Ok(_context.ShortUrls.ToList());
+                    new JsonResult(_context.ShortUrls.ToList(),new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = null
+                    });
 
+
+      
 
         [HttpGet("{id}")]
         public ShortUrlPO? GetById(int id) =>

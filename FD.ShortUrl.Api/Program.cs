@@ -1,6 +1,7 @@
 using FD.ShortUrl.Api;
 using FD.ShortUrl.Repository;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,10 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers(options =>
 {
     options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
-}).AddNewtonsoftJson();
+}).AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseOracle(configuration.GetConnectionString("baseDb")));
