@@ -37,32 +37,47 @@ namespace FD.ShortUrl.Api.Controllers
         //    }
         //}
 
-        [HttpGet]
-        public async IAsyncEnumerable<ShortUrlPO> GetItems()
-        {
-            var list = _context.ShortUrls;
+        //[HttpGet]
+        //public async IAsyncEnumerable<ShortUrlPO> GetItems()
+        //{
+        //    var list = _context.ShortUrls;
 
-            await foreach (var item in list)
-            {
-                yield return item;
-            }
-        }
+        //    await foreach (var item in list)
+        //    {
+        //        yield return item;
+        //    }
+        //}
+
+    //    [HttpGet("Version")]
+    //    public ContentResult GetVersion() =>
+    //Content("v1.0.0");
+
+
+        [HttpGet]
+        public IActionResult Get() =>
+                    Ok(_context.ShortUrls.ToList());
+
+
+        [HttpGet("{id}")]
+        public ShortUrlPO? GetById(int id) =>
+    _context.ShortUrls.Where(f=>f.SHORT_URL_ID==id).ToList().FirstOrDefault();
+
 
         // GET: api/TodoItems/5
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShortUrlPO))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetTodoItem(int id)
-        {
-            var todoItems =  _context.ShortUrls.Where(f => f.SHORT_URL_ID == id).ToList();
+        //[HttpGet("{id}")]
+        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ShortUrlPO))]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //public IActionResult GetTodoItem(int id)
+        //{
+        //    var todoItems =  _context.ShortUrls.Where(f => f.SHORT_URL_ID == id).ToList();
 
-            if (!todoItems.Any())
-            {                
-                return NotFound();
-            }
- 
-            return Ok(todoItems.First());
-        }
+        //    if (!todoItems.Any())
+        //    {                
+        //        return NotFound();
+        //    }          
+
+        //    return Ok(todoItems.First());
+        //}
 
 
         //[HttpGet("{id}")]
@@ -89,25 +104,25 @@ namespace FD.ShortUrl.Api.Controllers
         //    return todoItem;
         //}
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<string>> CreateItem(ShortUrlPO shortUrl)
-        {
-            try
-            {                               
-                var entity = _context.ShortUrls.Add(shortUrl);
-                await _context.SaveChangesAsync();
-                var result = entity.Entity.SHORT_URL_ID;
-                var act = nameof(GetTodoItem);
-                return CreatedAtAction(nameof(GetTodoItem), new { id = result });
-            }
-            catch (Exception ex)
-            {
+        //[HttpPost]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<ActionResult<string>> CreateItem(ShortUrlPO shortUrl)
+        //{
+        //    try
+        //    {                               
+        //        var entity = _context.ShortUrls.Add(shortUrl);
+        //        await _context.SaveChangesAsync();
+        //        var result = entity.Entity.SHORT_URL_ID;
+        //        var act = nameof(GetTodoItem);
+        //        return CreatedAtAction(nameof(GetTodoItem), new { id = result });
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-            }
-            return Content("ok");
-        }
+        //    }
+        //    return Content("ok");
+        //}
 
         [HttpPut("{short_url_id}")]
         public async Task<ActionResult<bool>> SaveItem(int short_url_id, [FromBody]ShortUrlPO shortUrl)
