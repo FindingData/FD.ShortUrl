@@ -15,6 +15,7 @@ namespace FD.ShortUrl.Api.Controllers
     #region snippet_Route
     [Route("api/[controller]")]
     [ApiController]
+    [FormatFilter]
     public class ShortUrlsController : ControllerBase
     #endregion
     {
@@ -62,9 +63,9 @@ namespace FD.ShortUrl.Api.Controllers
                     });
 
 
-      
 
-        [HttpGet("{id}")]
+
+        [HttpGet("{id}.{format?}")]
         public ShortUrlPO? GetById(int id) =>
     _context.ShortUrls.Where(f=>f.SHORT_URL_ID==id).ToList().FirstOrDefault();
 

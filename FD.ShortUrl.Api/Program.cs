@@ -15,9 +15,10 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers(options =>
 {
     options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
-}).AddNewtonsoftJson(options =>
+}).AddXmlSerializerFormatters()
+    .AddJsonOptions(options =>
 {
-    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
