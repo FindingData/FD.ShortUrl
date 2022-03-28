@@ -18,16 +18,18 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "EKey": "form launchsettings.json",
         "PREFIX_MyKey": "MyKey1",
-        "MyKey": "MyKey2"
+        "MyKey": "MyKey2",
+        "COMPlus_ReadyToRun": "0"
       },
       "applicationUrl": "http://localhost:3302;https://localhost:3300",
       "dotnetRunMessages": true
     },
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,      
+      "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "COMPlus_ReadyToRun": "0"
       }
     }
   }
