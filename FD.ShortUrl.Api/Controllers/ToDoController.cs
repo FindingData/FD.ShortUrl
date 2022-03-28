@@ -44,8 +44,7 @@ namespace FD.ShortUrl.Api.Controllers
                 return BadRequest(ModelState);
             }
         }
-
-
+        
         [HttpGet("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -61,6 +60,7 @@ namespace FD.ShortUrl.Api.Controllers
 
             return ItemToDTO(todoItem);
         }
+
 
 
         //[HttpGet("{id}")]

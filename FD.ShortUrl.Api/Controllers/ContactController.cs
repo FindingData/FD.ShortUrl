@@ -26,8 +26,21 @@ namespace FD.ShortUrl.Api.Controllers
             return await _context.Contacts                
                 .ToListAsync();
         }
-        
-        [HttpGet("{id}")]       
+
+        //[HttpGet("{id}")]       
+        //public async Task<ActionResult<Contact>> GetItem(int id)
+        //{
+        //    var item = await _context.Contacts.FindAsync(id);
+
+        //    if (item == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return item;
+        //} 
+
+        [HttpGet("{id}")] 
         public async Task<ActionResult<Contact>> GetItem(int id)
         {
             var item = await _context.Contacts.FindAsync(id);
@@ -38,7 +51,8 @@ namespace FD.ShortUrl.Api.Controllers
             }
 
             return item;
-        } 
+        }
+
 
         [HttpPost]       
         public async Task<ActionResult<Contact>> PostItem([FromBody] Contact contact)
@@ -48,6 +62,26 @@ namespace FD.ShortUrl.Api.Controllers
 
             //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
             return CreatedAtAction(nameof(GetItem), new { id = contact.Id }, contact);
-        }       
+        }
+
+
+        // PUT api/contactsconvention/{guid}
+        [HttpPut("{id}")]
+        [ApiConventionMethod(typeof(DefaultApiConventions),
+                             nameof(DefaultApiConventions.Put))]
+        public IActionResult Update(int id, Contact contact)
+        {
+            var contactToUpdate = _context.Contacts.Find(id);
+
+            if (contactToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            _context.Update(contact);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetItem), new { id = contact.Id }, contact);
+        }
+
     }
 }
