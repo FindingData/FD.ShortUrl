@@ -1,38 +1,19 @@
 using FD.ShortUrl.Api;
-using FD.ShortUrl.Repository;
-using Microsoft.EntityFrameworkCore;
+using FD.ShortUrl.Core;
 
-var builder = WebApplication.CreateBuilder(args);
-
-var configuration = builder.Configuration;
-builder.Services.AddMvc();
-builder.Services.AddScoped<IBrainstormSessionRepository,EFStormSessionRepository>();
-
-builder.Services.AddControllers();
-
-
-
-//builder.Services.AddDbContext<ApplicationDbContext>(opt =>
-//    opt.UseOracle(configuration.GetConnectionString("baseDb")));
-builder.Services.AddDbContext<BrainStormDb>(opt =>
-opt.UseInMemoryDatabase("ContactDb"));
-
-var app = builder.Build();
-
-if (builder.Environment.IsDevelopment())
+await Host.CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(webBuilder =>
 {
-    using (var scope = app.Services.CreateScope())
+    webBuilder.UseStartup<Startup>();
+})
+    .ConfigureServices(services =>
     {
-        var repository = scope.ServiceProvider.GetRequiredService<IBrainstormSessionRepository>();
-        BrainInitialzie.InitializeDatabaseAsync(repository).Wait();
-    }
-}
+        services.AddHostedService<SampleHostedService>();
+        services.AddTransient<IOperationTransient, Operation>();
+        services.AddScoped<IOperationScoped, Operation>();
+        services.AddSingleton<IOperationSingleton, Operation>();
+    })
+    .Build()    
+    .RunAsync();
 
-app.MapControllers();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"); //mvc
-
-app.Run();
-
+ public partial class Program { }
