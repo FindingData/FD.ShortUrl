@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FD.ShortUrl.Api
 {
-    public class IndexModel : PageModel
+    public class HomeModel : PageModel
     {
         private readonly ILogger _logger;
         private readonly IOperationTransient _transientOperation;
         private readonly IOperationSingleton _singletonOperation;
         private readonly IOperationScoped _scopedOperation;
 
-        public IndexModel(ILogger<IndexModel> logger,
+        public HomeModel(ILogger<HomeModel> logger,
                           IOperationTransient transientOperation,
                           IOperationScoped scopedOperation,
                           IOperationSingleton singletonOperation)

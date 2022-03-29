@@ -12,6 +12,11 @@ namespace FD.ShortUrl.Api.Controllers
             return Content("index");
         }
 
+        public IActionResult About()
+        {
+            return Content("about");
+        }
+
         public IActionResult Bad()
         {
             return BadRequest("bad");
