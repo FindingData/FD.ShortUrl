@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FD.ShortUrl.Api.Controllers
 {
-    [AllowAnonymous]
+    
     public class HomeController : Controller
     {
         public IActionResult Index()

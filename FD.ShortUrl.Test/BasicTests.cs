@@ -21,8 +21,7 @@ namespace FD.ShortUrl.Test
 
         [Theory]
         [InlineData("/")]
-        [InlineData("Home/Index")]
-        [InlineData("Home/Bad")]
+         
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
@@ -34,7 +33,7 @@ namespace FD.ShortUrl.Test
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
             var resp = response.Content.Headers.ContentType.ToString();
-            Assert.Equal("text/plain; charset=utf-8",
+            Assert.Equal("text/html; charset=utf-8",
                 resp);
         }
     }

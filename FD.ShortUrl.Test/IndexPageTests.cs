@@ -11,6 +11,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Microsoft.AspNetCore.TestHost;
+using FD.ShortUrl.Core;
+using Microsoft.AspNetCore.Authentication;
+using System.Net.Http.Headers;
 
 namespace FD.ShortUrl.Test
 {
@@ -100,6 +104,76 @@ namespace FD.ShortUrl.Test
             Assert.Equal(HttpStatusCode.OK, defaultPage.StatusCode);
             Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
             Assert.Equal("/", response.Headers.Location.OriginalString);
+        }
+
+        [Fact]
+        public async Task Get_QuoteService_ProvidesQuoteInPage()
+        {
+            // Arrange
+            var client = _factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddScoped<IQuoteService, TestQuoteService>();
+                });
+            })
+                .CreateClient();
+
+            //Act
+            var defaultPage = await client.GetAsync("/");
+            var content = await HtmlHelpers.GetDocumentAsync(defaultPage);
+            var quoteElement = content.QuerySelector("#quote");
+
+            // Assert
+            Assert.Equal("Something's interfering with time, Mr. Scarman, " +
+                "and time is my business.", quoteElement.Attributes["value"].Value);
+        }
+
+        [Fact]
+        public async Task Get_SecurePageRedirectsAnUnauthenticatedUser()
+        {
+            // Arrange
+            var client = _factory.CreateClient(
+                new WebApplicationFactoryClientOptions
+                {
+                    AllowAutoRedirect = false
+                });
+
+            // Act
+            var response = await client.GetAsync("/SecurePage");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
+            Assert.StartsWith("http://localhost/Identity/Account/Login",
+                response.Headers.Location.OriginalString);
+        }
+
+        [Fact]
+        public async Task Get_SecurePageIsReturnedForAnAuthenticatedUser()
+        {
+            // Arrange
+            var client = _factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddAuthentication("Test")
+                        .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
+                            "Test", options => { });
+                });
+            })
+                .CreateClient(new WebApplicationFactoryClientOptions
+                {
+                    AllowAutoRedirect = false,
+                });
+
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Test");
+
+            //Act
+            var response = await client.GetAsync("/SecurePage");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
 

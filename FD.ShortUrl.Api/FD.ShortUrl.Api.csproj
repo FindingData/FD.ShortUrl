@@ -30,6 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\Shared\_Layout.cshtml" />
+    <None Include="Pages\Shared\_LoginPartial.cshtml" />
     <None Include="wwwroot\file\1.rtf" />
     <None Include="wwwroot\images\1.jpg" />
     <None Include="wwwroot\images\2.jpg" />
