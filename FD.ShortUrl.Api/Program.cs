@@ -1,4 +1,6 @@
 using FD.ShortUrl.Auth.Data;
+using FD.ShortUrl.Core;
+using FD.ShortUrl.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,13 +8,45 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<AuthDbContext>(options =>
+    options.UseSqlServer(connectionString, o =>o.MigrationsAssembly("FD.ShortUrl.Api"))) ;
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.AddDbContext<TodoDb>(opt =>
+opt.UseInMemoryDatabase("TodoDb"));
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddRazorPages();
+    .AddEntityFrameworkStores<AuthDbContext>();
+
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizePage("/Index");
+});
+
+builder.Services.AddScoped<IQuoteService, QuoteService>();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+
+    // Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // User settings.
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = false;
+});
+
+ 
 
 var app = builder.Build();
 
@@ -39,3 +73,5 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+
+public partial class Program { }
