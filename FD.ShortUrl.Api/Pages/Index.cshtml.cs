@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FD.ShortUrl.Core;
 using FD.ShortUrl.Domain;
 using FD.ShortUrl.Repository;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -34,6 +35,8 @@ namespace FD.ShortUrl.Api.Pages
 
         public string Quote { get; private set; }
 
+       
+
         public async Task OnGetAsync()
         {
             ToDos = await _db.GetAsync();
@@ -50,6 +53,13 @@ namespace FD.ShortUrl.Api.Pages
 
                 return Page();
             }
+
+            var tokens = new InitialApplicationState
+            {
+                AccessToken = await HttpContext.GetTokenAsync("access_token"),
+                RefreshToken = await HttpContext.GetTokenAsync("refresh_token")
+            };
+
 
             await _db.AddAsync(TodoModel);
 

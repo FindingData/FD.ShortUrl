@@ -14,6 +14,10 @@
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
+  <ItemGroup>
+    <Compile Remove="Controllers\MixedController.cs" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<InternalsVisibleTo Include="FD.ShortUrl.Test" />
 	</ItemGroup>
@@ -50,6 +54,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
     <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="6.0.3" />
@@ -80,6 +85,10 @@
     <ProjectReference Include="..\FD.ShortUrl.Core\FD.ShortUrl.Core.csproj" />
     <ProjectReference Include="..\FD.ShortUrl.Domain\FD.ShortUrl.Domain.csproj" />
     <ProjectReference Include="..\FD.ShortUrl.Repository\FD.ShortUrl.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\" />
   </ItemGroup>
 
 </Project>
