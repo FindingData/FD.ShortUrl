@@ -10,5 +10,7 @@ namespace FD.ShortUrl.Auth.Data
             : base(options)
         {
         }
+
+        
     }
 }

@@ -13,5 +13,7 @@ namespace FD.ShortUrl.Domain
         public string? Name { get; set; }
         [PersonalData]
         public DateTime DOB { get; set; }
+        [PersonalData]
+        public string CertificateId { get; set; }
     }
 }

@@ -9,15 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AuthDbContext>(options =>
+builder.Services.AddDbContext<ApiAuthDbContext>(options =>
     options.UseSqlServer(connectionString, o => o.MigrationsAssembly("FD.ShortUrl.Api")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDbContext<TodoDb>(opt =>
-opt.UseInMemoryDatabase("TodoDb"));
+//builder.Services.AddDbContext<TodoDb>(opt =>
+//opt.UseInMemoryDatabase("TodoDb"));
 
-builder.Services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<AuthDbContext>();
+//builder.Services.AddDefaultIdentity<ApiApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<ApiAuthDbContext>();
 
 builder.Services.AddRazorPages(options =>
 {
