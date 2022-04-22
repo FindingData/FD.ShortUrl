@@ -10,14 +10,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApiAuthDbContext>(options =>
-    options.UseSqlServer(connectionString, o => o.MigrationsAssembly("FD.ShortUrl.Api")));
+    options.UseSqlServer(connectionString, o => o.MigrationsAssembly("FD.ShortUrl.Api"))
+    .UseLazyLoadingProxies())
+    .AddIdentity<ApiApplicationUser, ApiApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApiAuthDbContext>();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Default Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+});
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //builder.Services.AddDbContext<TodoDb>(opt =>
 //opt.UseInMemoryDatabase("TodoDb"));
 
-//builder.Services.AddDefaultIdentity<ApiApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApiAuthDbContext>();
+ 
+
 
 builder.Services.AddRazorPages(options =>
 {

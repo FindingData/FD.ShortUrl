@@ -16,6 +16,26 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\MixedController.cs" />
+    <Compile Remove="Migrations\20220401063255_InitialMigration.cs" />
+    <Compile Remove="Migrations\20220401063255_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220406072005_customer-data.cs" />
+    <Compile Remove="Migrations\20220406072005_customer-data.Designer.cs" />
+    <Compile Remove="Migrations\20220422061928_user_table.cs" />
+    <Compile Remove="Migrations\20220422061928_user_table.Designer.cs" />
+    <Compile Remove="Migrations\20220422073803_user_table.cs" />
+    <Compile Remove="Migrations\20220422073803_user_table.Designer.cs" />
+    <Compile Remove="Migrations\20220422083559_user_rel.cs" />
+    <Compile Remove="Migrations\20220422083559_user_rel.Designer.cs" />
+    <Compile Remove="Migrations\ApiAuthDb\20220421101117_add_certif.cs" />
+    <Compile Remove="Migrations\ApiAuthDb\20220421101117_add_certif.Designer.cs" />
+    <Compile Remove="Migrations\ApiAuthDb\20220421102227_add_certif2.cs" />
+    <Compile Remove="Migrations\ApiAuthDb\20220421102227_add_certif2.Designer.cs" />
+    <Compile Remove="Migrations\ApiAuthDb\20220421102532_add_certif3.cs" />
+    <Compile Remove="Migrations\ApiAuthDb\20220421102532_add_certif3.Designer.cs" />
+    <Compile Remove="Migrations\ApiAuthDb\20220421102938_cer.cs" />
+    <Compile Remove="Migrations\ApiAuthDb\20220421102938_cer.Designer.cs" />
+    <Compile Remove="Migrations\ApiAuthDb\ApiAuthDbContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\AuthDbContextModelSnapshot.cs" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -66,6 +86,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -89,6 +110,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\" />
+    <Folder Include="Migrations\ApiAuthDb\" />
   </ItemGroup>
 
 </Project>

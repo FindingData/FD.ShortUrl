@@ -4,6 +4,7 @@ using FD.ShortUrl.Auth.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FD.ShortUrl.Api.Migrations
 {
     [DbContext(typeof(ApiAuthDbContext))]
-    partial class ApiAuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220422090931_user_table")]
+    partial class user_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
