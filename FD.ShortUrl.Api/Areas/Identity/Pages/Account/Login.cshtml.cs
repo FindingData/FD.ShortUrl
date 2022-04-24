@@ -20,10 +20,10 @@ namespace FD.ShortUrl.Api.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<WebAppUser> _signInManager;
+        private readonly SignInManager<ApiApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<WebAppUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApiApplicationUser> signInManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

@@ -1,5 +1,5 @@
 ﻿@using FD.ShortUrl.Domain
-@inject SignInManager<WebAppUser> SignInManager
+@inject SignInManager<ApiApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

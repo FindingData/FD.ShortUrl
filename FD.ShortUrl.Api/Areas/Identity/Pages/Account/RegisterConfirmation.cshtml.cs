@@ -18,10 +18,10 @@ namespace FD.ShortUrl.Api.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterConfirmationModel : PageModel
     {
-        private readonly UserManager<WebAppUser> _userManager;
+        private readonly UserManager<ApiApplicationUser> _userManager;
         private readonly IEmailSender _sender;
 
-        public RegisterConfirmationModel(UserManager<WebAppUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<ApiApplicationUser> userManager, IEmailSender sender)
         {
             _userManager = userManager;
             _sender = sender;
@@ -61,7 +61,7 @@ namespace FD.ShortUrl.Api.Areas.Identity.Pages.Account
 
             Email = email;
             // Once you add a real email sender, you should remove this code that lets you confirm the account
-            DisplayConfirmAccountLink = true;
+            //DisplayConfirmAccountLink = true;
             if (DisplayConfirmAccountLink)
             {
                 var userId = await _userManager.GetUserIdAsync(user);

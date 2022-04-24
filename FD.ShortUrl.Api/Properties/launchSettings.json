@@ -1,5 +1,8 @@
 {
   "HelloKey": "HelloKey",
+  //"SendGridKey": "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",
+  "SendGridKey": "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",
+  //"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": null,
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,

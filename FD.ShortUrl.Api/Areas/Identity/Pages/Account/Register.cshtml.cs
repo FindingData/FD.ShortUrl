@@ -22,14 +22,14 @@ namespace FD.ShortUrl.Api.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<WebAppUser> _signInManager;
-        private readonly UserManager<WebAppUser> _userManager;
+        private readonly SignInManager<ApiApplicationUser> _signInManager;
+        private readonly UserManager<ApiApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<WebAppUser> userManager,
-            SignInManager<WebAppUser> signInManager,
+            UserManager<ApiApplicationUser> userManager,
+            SignInManager<ApiApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -87,10 +87,9 @@ namespace FD.ShortUrl.Api.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new WebAppUser
+                var user = new ApiApplicationUser
                 {
-                    Name = Input.Name,
-                    DOB = Input.DOB,
+                    FullName = Input.Name,                      
                     UserName = Input.Email, 
                     Email = Input.Email 
                 };

@@ -15,12 +15,12 @@ namespace FD.ShortUrl.Api.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<WebAppUser> _userManager;
-        private readonly SignInManager<WebAppUser> _signInManager;
+        private readonly UserManager<ApiApplicationUser> _userManager;
+        private readonly SignInManager<ApiApplicationUser> _signInManager;
 
         public IndexModel(
-            UserManager<WebAppUser> userManager,
-            SignInManager<WebAppUser> signInManager)
+            UserManager<ApiApplicationUser> userManager,
+            SignInManager<ApiApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -70,7 +70,7 @@ namespace FD.ShortUrl.Api.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(WebAppUser user)
+        private async Task LoadAsync(ApiApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
@@ -79,8 +79,8 @@ namespace FD.ShortUrl.Api.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                Name = user.Name,
-                DOB = user.DOB,
+                 Name = user.FullName,
+              
                 PhoneNumber = phoneNumber
             };
         }
@@ -122,16 +122,12 @@ namespace FD.ShortUrl.Api.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            if (Input.Name != user.Name)
+            if (Input.Name != user.FullName)
             {
-                user.Name = Input.Name;
+                user.FullName = Input.Name;
             }
 
-            if (Input.DOB != user.DOB)
-            {
-                user.DOB = Input.DOB;
-            }
-
+           
             await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
