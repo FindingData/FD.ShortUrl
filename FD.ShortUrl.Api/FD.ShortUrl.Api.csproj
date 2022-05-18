@@ -69,6 +69,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\Cookie\Pages\Account\AccessDenied.cshtml" />
+    <None Include="Areas\Cookie\Pages\Account\Login.cshtml" />
+    <None Include="Areas\Cookie\Pages\Account\SignedOut.cshtml" />
+    <None Include="Areas\Cookie\Pages\Account\_ViewImports.cshtml" />
+    <None Include="Areas\Cookie\Pages\Shared\_Layout.cshtml" />
+    <None Include="Areas\Cookie\Pages\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml" />
     <None Include="Areas\Identity\Pages\Account\Login.cshtml" />
     <None Include="Areas\Identity\Pages\Account\Manage\SetPassword.cshtml" />
@@ -82,6 +88,15 @@
     <None Include="wwwroot\file\1.rtf" />
     <None Include="wwwroot\images\1.jpg" />
     <None Include="wwwroot\images\2.jpg" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -125,6 +140,7 @@
   <ItemGroup>
     <Folder Include="ClientApp\" />
     <Folder Include="Migrations\ApiAuthDb\" />
+    <Folder Include="Pages\Cookies\" />
   </ItemGroup>
 
 </Project>
