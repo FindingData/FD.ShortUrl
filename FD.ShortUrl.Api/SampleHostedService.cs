@@ -6,6 +6,6 @@
             Task.Run(()=>Console.WriteLine("StartAsync"));
 
         public Task StopAsync(CancellationToken cancellationToken)
-            => Task.Run(()=> () => Console.WriteLine("StopAsync"));
+            => Task.Run(() => Console.WriteLine("StopAsync"));
     }
 }

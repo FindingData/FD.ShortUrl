@@ -24,6 +24,12 @@ builder.Services.AddDbContext<ApiAuthDbContext>(options =>
      .AddTokenProvider("Default", typeof(HedgehogEmailTwoFactorAuthentication<ApiApplicationUser>))
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApiAuthDbContext>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    options.SlidingExpiration = true;
+    options.AccessDeniedPath = "/Forbidden/";
+});
 
 builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<ApiApplicationUser>>();
 
@@ -110,6 +116,12 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+var cookiePolicyOptions = new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+};
+app.UseCookiePolicy(cookiePolicyOptions);
 
 app.MapRazorPages();
 
