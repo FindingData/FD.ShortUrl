@@ -6,6 +6,8 @@ using FD.ShortUrl.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,11 @@ builder.Services.AddDbContext<ApiAuthDbContext>(options =>
     // .AddEntityFrameworkStores<ApiAuthDbContext>()
      ;
 
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.ConfigureHttpsDefaults(options =>
+        options.ClientCertificateMode = ClientCertificateMode.RequireCertificate);
+});
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
